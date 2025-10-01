@@ -44,39 +44,7 @@ Dining Philosophers (Yemek Yiyen Filozoflar) problemi ilk olarak **1965'te Edsge
 - **Thread:** Aynı belleği paylaşan hafif işlemler
 - **Neden Thread:** Çatallar (forks) gibi paylaşılan kaynaklar olduğu için thread kullandık
 
-## 🛡️ Problemlerin Çözümü
-
-### 🔒 **Deadlock Nasıl Önlendi?**
-**Problem:** Herkes aynı anda sol çatalı alırsa, sağ çatal için sonsuza kadar beklerler.
-
-**Çözüm - Asimetrik Çatal Alma:**
-```c
-// Çift numaralı filozoflar ters sırada alır
-if (philo->id % 2 == 0) {
-    first_fork = philo->right_fork;  // Önce sağ
-    second_fork = philo->left_fork;  // Sonra sol
-}
-```
-Böylece döngüsel bekleme kırılır!
-
-### 🔄 **Data Race Nasıl Önlendi?**
-**Problem:** İki thread aynı veriyi aynı anda değiştirirse karışıklık olur.
-
-**Çözüm - Mutex Kilitleri:**
-```c
-// Yazdırma işlemi için
-safe_mutex_lock(&data->print_mutex);
-printf("%lld %d is eating\n", time, philo_id);
-safe_mutex_unlock(&data->print_mutex);
-
-// Ölüm kontrolü için  
-safe_mutex_lock(&data->death_mutex);
-philo->last_meal = current_time;
-safe_mutex_unlock(&data->death_mutex);
-```
-**Sonuç:** Aynı anda sadece bir thread kritik bölüme girebilir.
-
-## 🚀 Program Nasıl Çalışır?
+##  Program Nasıl Çalışır?
 
 ### 📋 Kullanım
 ```bash
@@ -172,5 +140,37 @@ void *philosopher_routine(void *arg)
 ```
 
 Bu yapı sayesinde **main thread** tüm işlemi kontrol ederken, her filozof bağımsız çalışır ve kaynaklar güvenli paylaşılır! 🎉
+
+## 🛡️ Problemlerin Çözümü
+
+### 🔒 **Deadlock Nasıl Önlendi?**
+**Problem:** Herkes aynı anda sol çatalı alırsa, sağ çatal için sonsuza kadar beklerler.
+
+**Çözüm - Asimetrik Çatal Alma:**
+```c
+// Çift numaralı filozoflar ters sırada alır
+if (philo->id % 2 == 0) {
+    first_fork = philo->right_fork;  // Önce sağ
+    second_fork = philo->left_fork;  // Sonra sol
+}
+```
+Böylece döngüsel bekleme kırılır!
+
+### 🔄 **Data Race Nasıl Önlendi?**
+**Problem:** İki thread aynı veriyi aynı anda değiştirirse karışıklık olur.
+
+**Çözüm - Mutex Kilitleri:**
+```c
+// Yazdırma işlemi için
+safe_mutex_lock(&data->print_mutex);
+printf("%lld %d is eating\n", time, philo_id);
+safe_mutex_unlock(&data->print_mutex);
+
+// Ölüm kontrolü için  
+safe_mutex_lock(&data->death_mutex);
+philo->last_meal = current_time;
+safe_mutex_unlock(&data->death_mutex);
+```
+**Sonuç:** Aynı anda sadece bir thread kritik bölüme girebilir.
 
 
