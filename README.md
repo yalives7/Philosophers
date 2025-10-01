@@ -1,12 +1,15 @@
 Dining Philosophers Problem 🍝
 📜 Tarihçe
 
-Dining Philosophers (Yemek Yiyen Filozoflar) problemi ilk kez 1965’te Edsger W. Dijkstra tarafından ortaya atıldı. Amaç, çoklu süreçler (process) veya iş parçacıkları (thread) aynı anda ortak kaynakları paylaşırken ortaya çıkabilecek senkronizasyon sorunlarını göstermekti.
+Dining Philosophers (Yemek Yiyen Filozoflar) problemi ilk kez 1965’te Edsger W. Dijkstra tarafından ortaya atıldı.
+Amaç, çoklu süreçler (process) veya iş parçacıkları (thread) aynı anda ortak kaynakları paylaşırken ortaya çıkabilecek senkronizasyon sorunlarını göstermekti.
 Daha sonra Tony Hoare bu problemi popülerleştirdi ve işletim sistemleri derslerinde klasik bir örnek haline geldi.
 
 ❓ Problem Nedir?
 
-Bir masada N filozof yuvarlak şekilde oturur. Her filozofun önünde bir tabak yemek vardır ve yemek yiyebilmek için iki çatal gerekir. Filozoflar şu üç eylemi yapabilir:
+Bir masada N filozof yuvarlak şekilde oturur. Her filozofun önünde bir tabak yemek vardır ve yemek yiyebilmek için iki çatal gerekir.
+
+Filozoflar şu üç eylemi yapabilir:
 
 💭 Düşünmek
 
@@ -15,9 +18,10 @@ Bir masada N filozof yuvarlak şekilde oturur. Her filozofun önünde bir tabak 
 😴 Uyumak / dinlenmek
 
 Her filozofun sağında ve solunda birer çatal vardır.
+
 Sorun şuradan doğar:
 
-Eğer tüm filozoflar aynı anda yemek için çatalları almaya kalkarsa, herkes bir çatalı tutar ve ikinciyi bekler. Bu durumda kimse yemek yiyemez → Deadlock oluşur.
+Eğer tüm filozoflar aynı anda yemek için çatalları almaya kalkarsa → Deadlock oluşur.
 
 Eğer bazı filozoflar sürekli yemek yeme fırsatı bulurken bazıları hiç bulamazsa → Starvation ortaya çıkar.
 
@@ -27,7 +31,7 @@ Eğer aynı anda iki filozof aynı kaynağa (örneğin aynı çatal) erişmeye �
 🛑 Deadlock (Kilitlenme)
 
 Tüm süreçler birbirini bekler, hiçbir işlem ilerleyemez.
-Örnek: Her filozof solundaki çatalı alıp sağındakini beklerse herkes sonsuza kadar aç kalır.
+📌 Örnek: Her filozof solundaki çatalı alıp sağındakini beklerse herkes sonsuza kadar aç kalır.
 
 🔄 Race Condition (Yarış Durumu)
 
@@ -41,9 +45,11 @@ Biri değişkeni +1 yapıyor ama tam o sırada diğeri eski değeri okuyup +1 ya
 
 Sonuçta beklenen değer +2 olması gerekirken yalnızca +1 kaydediliyor.
 
-Yani biri yaptığı değişikliği diğeri fark etmeden üzerine yazıyor → bu yüzden veri bozulması (data corruption) olur.
+👉 Yani biri yaptığı değişikliği diğeri fark etmeden üzerine yazıyor → bu yüzden veri bozulması (data corruption) olur.
 
 🍽️ Starvation (Aç Kalma)
 
 Bazı süreçler sürekli kaynak bulurken diğerleri hiç kaynak bulamaz.
-Örnek: Hızlı olan filozof hep çatalları kapar, yavaş olan hiçbir zaman yemek yiyemez.
+📌 Örnek: Hızlı olan filozof hep çatalları kapar, yavaş olan hiçbir zaman yemek yiyemez.
+
+Bu yüzden adil kaynak paylaşımı sağlamak gerekir.
