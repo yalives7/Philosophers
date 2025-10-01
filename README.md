@@ -1,4 +1,5 @@
 Dining Philosophers Problem 🍝
+
 📜 Tarihçe
 
 Dining Philosophers (Yemek Yiyen Filozoflar) problemi ilk kez 1965’te Edsger W. Dijkstra tarafından ortaya atıldı.
@@ -15,7 +16,7 @@ Filozoflar şu üç eylemi yapabilir:
 
 🍝 Yemek yemek
 
-😴 Uyumak / dinlenmek
+😴 Uyumak 
 
 Her filozofun sağında ve solunda birer çatal vardır.
 
@@ -27,7 +28,9 @@ Eğer bazı filozoflar sürekli yemek yeme fırsatı bulurken bazıları hiç bu
 
 Eğer aynı anda iki filozof aynı kaynağa (örneğin aynı çatal) erişmeye çalışırsa → Race Condition yaşanır.
 
+
 ⚠️ Karşılaşılan Problemler
+
 🛑 Deadlock (Kilitlenme)
 
 Tüm süreçler birbirini bekler, hiçbir işlem ilerleyemez.
