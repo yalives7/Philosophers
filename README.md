@@ -32,17 +32,38 @@ Dining Philosophers (Yemek Yiyen Filozoflar) problemi ilk olarak **1965'te Edsge
 - Neden önlenmeli: Sistemde bazı işlevler veya kullanıcılar sürekli ihmal edilir; canlılık (liveness) ve adalet bozulur.
 - Örnek: Hızlı veya öncelikli filozoflar sürekli çatalları kapar; yavaş filozof hiçbir zaman yemek yiyemez.
 
-## 🧵 Thread ve Fork Kavramları
+## 🧵 Çoklu İşlem Çözümü - Thread vs Fork
 
-### **Thread Nedir?**
-- **Thread (İş Parçacığı):** Aynı program içinde eşzamanlı çalışan bağımsız kod blokları
-- **Main Thread:** `int main()` fonksiyonunun çalıştığı ana thread - tüm diğer thread'leri yönetir
-- **Bu projede:** Her filozof ayrı bir thread'de çalışır, böylece aynı anda düşünüp yemek yiyebilirler
+### **Neden Eşzamanlı İşlem Gerekli?**
+- **Problem:** Filozoflar birbirinden bağımsız düşünüp yemek yemeli
+- **Tek İşlem ile:** Filozoflar sırayla hareket eder → Gerçek dünya simülasyonu olmaz
+- **Çoklu İşlem ile:** Her filozof aynı anda farklı işlemler yapabilir
 
-### **Fork vs Thread Farkı**
-- **Fork:** Tamamen ayrı process oluşturur (bellekleri ayrı)
-- **Thread:** Aynı belleği paylaşan hafif işlemler
-- **Neden Thread:** Çatallar (forks) gibi paylaşılan kaynaklar olduğu için thread kullandık
+### **İki Farklı Çözüm Yolu:**
+
+#### **🔀 Fork (Process) Çözümü**
+- **Ne yapar:** `fork()` ile tamamen ayrı process'ler oluşturur
+- **Bellek:** Her process'in kendi belleği var
+- **İletişim:** Pipe, shared memory, semaphore gerekir
+- **Avantaj:** Bir process çökerse diğerlerini etkilemez
+- **Dezavantaj:** Daha ağır, karmaşık iletişim
+
+#### **🧵 Thread (Pthread) Çözümü** *(Bu projede kullanılan)*
+- **Ne yapar:** `pthread_create()` ile aynı process içinde thread'ler oluşturur
+- **Bellek:** Aynı belleği paylaşırlar
+- **İletişim:** Paylaşılan değişkenler ve mutex'ler
+- **Avantaj:** Hafif, kolay iletişim, ortak kaynaklar (çatallar)
+- **Dezavantaj:** Bir thread hatası tüm programı etkileyebilir
+
+### **Neden Thread Seçtik?**
+```c
+// Çatallar ortak kaynak - mutex ile korunur
+pthread_mutex_t *forks;  // Her çatal bir mutex
+// Thread'ler bu mutex'leri paylaşabilir!
+```
+- **Çatallar paylaşılan kaynak** → Thread'ler arası kolay paylaşım
+- **Mutex ile senkronizasyon** → Güvenli erişim
+- **Lightweight** → Daha az sistem kaynağı
 
 ##  Program Nasıl Çalışır?
 
